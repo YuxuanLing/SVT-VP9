@@ -792,8 +792,8 @@ index 1749b7fd37..85c878ad3d 100644
 @@ -2348,8 +2365,68 @@ static int mkv_write_packet_internal(AVFormatContext *s, const AVPacket *pkt)
      relative_packet_pos = avio_tell(pb);
  
-    if (par->codec_type != AVMEDIA_TYPE_SUBTITLE ||
-        (par->codec_id != AV_CODEC_ID_WEBVTT && duration <= 0)) {
+     if (par->codec_type != AVMEDIA_TYPE_SUBTITLE ||
+         (par->codec_id != AV_CODEC_ID_WEBVTT && duration <= 0)) {
 -        ret = mkv_write_block(s, pb, MATROSKA_ID_SIMPLEBLOCK, pkt, keyframe);
 +        if (pkt->flags & AV_PKT_FLAG_SVT_VP9_EXT_ON) {
 +            uint8_t *saved_data = pkt->data;
